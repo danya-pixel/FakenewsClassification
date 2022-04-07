@@ -127,3 +127,19 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Word vectors 
+.bin
+
+#VScode
+.vscode
+
+#env
+
+/nlp
+
+#fasttext dataset
+/fasttext
+
+#trained models
+/trained_models
