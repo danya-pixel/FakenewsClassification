@@ -145,3 +145,7 @@ dmypy.json
 
 # preprocessed data
 dataset/preprocessed
+
+#catboost
+
+/catboost_info
