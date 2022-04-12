@@ -131,15 +131,17 @@ dmypy.json
 # Word vectors 
 .bin
 
-#VScode
+# VScode
 .vscode
 
-#env
-
+# env
 /nlp
 
-#fasttext dataset
+# fasttext dataset
 /fasttext
 
-#trained models
+# trained_models
 /trained_models
+
+# preprocessed data
+dataset/preprocessed
