@@ -1,15 +1,24 @@
-from nltk.corpus import stopwords
 import re
+import torch
+from nltk.corpus import stopwords
 from multiprocessing import Pool
 from tqdm.notebook import tqdm
 from string import punctuation
 from pymystem3 import Mystem
 from functools import partial
-import torch
 from torch.utils.data import TensorDataset, DataLoader
 
 
 def base_preprocessing(text, analyzer):
+    """Classic preproccesing for text 
+
+    Args:
+        text: string
+        analyzer: Mystem or Pymorphy analyzer
+
+    Returns:
+        string: preprocessed string
+    """
     text = re.sub(r'[0-9]+', '', text)
     text = re.sub(f'|'.join(["»", "«", "—"]), '', text)
     text = re.sub(' +', ' ', text)
@@ -20,6 +29,14 @@ def base_preprocessing(text, analyzer):
 
 
 def get_lemmas_from_text(text_series):
+    """Applies lemmatizer (mystem) to Pandas series
+
+    Args:
+        text_series (Pandas series)
+
+    Returns:
+        List of preprocessed lemmas
+    """
     mystem_analyzer = Mystem()
     with Pool(8) as pool:
         lemmas = list(
@@ -28,7 +45,7 @@ def get_lemmas_from_text(text_series):
 
 
 class BertInputItem(object):
-    """An item with all the necessary attributes for finetuning BERT."""
+    """An item with all the necessary attributes for training BERT."""
 
     def __init__(self, text, input_ids, input_mask, segment_ids, label_id):
         self.text = text
@@ -72,6 +89,16 @@ def convert_examples_to_inputs(example_texts, example_labels, max_seq_length, to
 
 
 def get_data_loader(features, batch_size, shuffle=True):
+    """Generates torch DataLoader from given features 
+
+    Args:
+        features: InputBatch's
+        batch_size (int): DataLoader batch size
+        shuffle (bool, optional): Shuffle or not. Defaults to True.
+
+    Returns:
+        Torch DataLoader
+    """
     all_input_ids = torch.tensor(
         [f.input_ids for f in features], dtype=torch.long)
     all_input_mask = torch.tensor(
