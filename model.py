@@ -1,8 +1,8 @@
 import os
-import torch
-from tqdm.notebook import tqdm
 import numpy as np
+import torch
 from tqdm import trange
+from tqdm.notebook import tqdm
 from sklearn.metrics import classification_report, precision_recall_fscore_support
 
 
@@ -83,7 +83,7 @@ def train(device, model, train_dataloader, val_dataloader, loss_fn, optimizer, s
                             token_type_ids=segment_ids, labels=label_ids)
             loss = outputs[0]
 
-            preds = torch.argmax(outputs.logits, dim=1)
+            _ = torch.argmax(outputs.logits, dim=1)
             loss = loss_fn(outputs.logits, label_ids)
 
             if GRADIENT_ACCUMULATION_STEPS > 1:
