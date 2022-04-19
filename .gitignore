@@ -144,7 +144,7 @@ dmypy.json
 /trained_models
 
 # preprocessed data
-dataset/preprocessed
+dataset/preprocessed/*.csv
 
 #catboost
 
