@@ -1,6 +1,6 @@
 # KonturDSInterview
 
-## Запуск решения
+## Подготовка окружения
 
 ```
 pip install -r requirements.txt
