@@ -60,8 +60,8 @@ def train_model(device, model, train_dataloader, val_dataloader, loss_fn, optimi
         train_dataloader: PyTorch DataLoader
         val_dataloader: PyTorch DataLoader
         loss_fn: Loss function
-        optimizer: _description_
-        scheduler: _description_
+        optimizer: any optimizer
+        scheduler: any scheduler
         config: NUM_TRAIN_EPOCHS, GRADIENT_ACCUMULATION_STEPS, MAX_GRAD_NORM, SAVED_MODEL_NAME
     """
     NUM_TRAIN_EPOCHS, GRADIENT_ACCUMULATION_STEPS, MAX_GRAD_NORM, SAVED_MODEL_NAME = config
