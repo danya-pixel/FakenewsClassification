@@ -135,17 +135,18 @@ dmypy.json
 .vscode
 
 # env
-/nlp
+/nlptest
 
 # fasttext dataset
-/fasttext
+solution/fasttext
 
 # trained_models
-/trained_models
+solution/trained_models
 
 # preprocessed data
-dataset/preprocessed/*.csv
+solution/dataset/preprocessed/*.csv
+solution/dataset/fasttext/*.csv
 
 # catboost
 
-/catboost_info
+/solution/catboost_info
