@@ -111,11 +111,12 @@ def train_model(device, model, train_dataloader, val_dataloader, loss_fn, optimi
         print(f"Dev accuracy: {dev_acc}")
 
         if len(acc_history) == 0 or dev_acc > max(acc_history):
-            print('New record, model saved')
             no_improvement = 0
-            model_to_save = model.module if hasattr(model, 'module') else model
             output_model_file = os.path.join(OUTPUT_DIR, SAVED_MODEL_NAME)
-            torch.save(model_to_save.state_dict(), output_model_file)
+
+            print(f'New record, model saved to {output_model_file}')
+            model.save_pretrained(output_model_file)
+
         elif dev_acc < acc_history[-1]:
             no_improvement += 1
 
