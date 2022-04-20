@@ -145,7 +145,7 @@ solution/trained_models
 
 # preprocessed data
 solution/dataset/preprocessed/*.csv
-solution/dataset/fasttext/*.csv
+solution/dataset/fasttext/*.txt
 
 # catboost
 
