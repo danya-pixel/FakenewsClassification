@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from sklearn.metrics import f1_score
 import torch
 from tqdm import trange
 from tqdm.notebook import tqdm
@@ -67,9 +68,8 @@ def train_model(device, model, train_dataloader, val_dataloader, loss_fn, optimi
     NUM_TRAIN_EPOCHS, GRADIENT_ACCUMULATION_STEPS, MAX_GRAD_NORM, SAVED_MODEL_NAME = config
     OUTPUT_DIR = "trained_models/"
     PATIENCE = 4
-    loss_fn = torch.nn.CrossEntropyLoss()
     loss_history = []
-    acc_history = []
+    F1_history = []
     no_improvement = 0
     for _ in trange(NUM_TRAIN_EPOCHS, desc="Epoch"):
         model.train()
@@ -101,23 +101,23 @@ def train_model(device, model, train_dataloader, val_dataloader, loss_fn, optimi
 
         dev_loss, dev_correct, dev_predicted = evaluate(device,
                                                         model, val_dataloader, loss_fn)
-        dev_acc = np.mean(dev_predicted == dev_correct)
+        dev_F1 = f1_score(dev_predicted, dev_correct)
 
         if (len(loss_history) > 3):
             print(f"Loss history: {loss_history[-3:]}")
         else:
             print(f"Loss history: {loss_history}")
         print(f"Dev loss: {dev_loss}")
-        print(f"Dev accuracy: {dev_acc}")
+        print(f"Dev F1: {dev_F1}")
 
-        if len(acc_history) == 0 or dev_acc > max(acc_history):
+        if len(F1_history) == 0 or dev_F1 > max(F1_history):
             no_improvement = 0
             output_model_file = os.path.join(OUTPUT_DIR, SAVED_MODEL_NAME)
 
             print(f'New record, model saved to {output_model_file}')
             model.save_pretrained(output_model_file)
 
-        elif dev_acc < acc_history[-1]:
+        elif dev_F1 < F1_history[-1]:
             no_improvement += 1
 
         if no_improvement > PATIENCE:
@@ -125,4 +125,4 @@ def train_model(device, model, train_dataloader, val_dataloader, loss_fn, optimi
             break
 
         loss_history.append(dev_loss.item())
-        acc_history.append(dev_acc)
+        F1_history.append(dev_F1)
