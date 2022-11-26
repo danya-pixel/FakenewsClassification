@@ -1,4 +1,4 @@
-# KonturDSInterview
+# FakenewsClassification
 
 ## Подготовка окружения
 
